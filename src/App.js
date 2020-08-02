@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
 
+
+
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>
@@ -12,6 +14,7 @@ const loading = (
 const TheLayout = React.lazy(() => import('./containers/TheLayout'));
 
 // Pages
+const Login2 = React.lazy(() => import('./views/pages/login/Login2'));
 const Login = React.lazy(() => import('./views/pages/login/Login'));
 const Register = React.lazy(() => import('./views/pages/register/Register'));
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
@@ -24,6 +27,7 @@ class App extends Component {
       <HashRouter>
           <React.Suspense fallback={loading}>
             <Switch>
+              <Route exact path="/login2" name="Login2 Page" render={props => <Login2 {...props}/>} />
               <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
               <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
               <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />

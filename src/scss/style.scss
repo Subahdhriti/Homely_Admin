@@ -5,4 +5,10 @@
 @import "~@coreui/coreui/scss/coreui.scss";
 
 // If you want to add something do it here
-@import "custom";
+
+
+@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+
+@import "./components/login";
+@import "./components/util";
