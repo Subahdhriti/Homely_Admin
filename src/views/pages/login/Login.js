@@ -1,78 +1,103 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
-  CCol,
-  CContainer,
-  CForm,
-  CInput,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
-  CRow
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
 
-const Login = () => {
-  return (
-    <div className="c-app c-default-layout flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md="8">
-            <CCardGroup>
-              <CCard className="p-4">
-                <CCardBody>
-                  <CForm>
-                    <h1>Login</h1>
-                    <p className="text-muted">Sign In to your account</p>
-                    <CInputGroup className="mb-3">
-                      <CInputGroupPrepend>
-                        <CInputGroupText>
-                          <CIcon name="cil-user" />
-                        </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput type="text" placeholder="Username" autoComplete="username" />
-                    </CInputGroup>
-                    <CInputGroup className="mb-4">
-                      <CInputGroupPrepend>
-                        <CInputGroupText>
-                          <CIcon name="cil-lock-locked" />
-                        </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput type="password" placeholder="Password" autoComplete="current-password" />
-                    </CInputGroup>
-                    <CRow>
-                      <CCol xs="6">
-                        <CButton color="primary" className="px-4">Login</CButton>
-                      </CCol>
-                      <CCol xs="6" className="text-right">
-                        <CButton color="link" className="px-0">Forgot password?</CButton>
-                      </CCol>
-                    </CRow>
-                  </CForm>
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.</p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>Register Now!</CButton>
-                    </Link>
-                  </div>
-                </CCardBody>
-              </CCard>
-            </CCardGroup>
-          </CCol>
-        </CRow>
-      </CContainer>
-    </div>
-  )
+import axios from 'axios';
+import { setUserSession } from '../../../utils/session';
+import {apiBase} from '../../../API/api';
+
+
+
+
+const Login = (props) => {
+
+    const [loading, setLoading] = useState(false);
+    const empid = useFormInput('');
+    const password = useFormInput('');
+    const [error, setError] = useState(null);
+
+
+
+    const handleLogin = (e) => {
+        
+        e.preventDefault();
+        setError(null);
+        setLoading(true);
+        axios.post(apiBase+'/admin/login', { email: empid.value, password: password.value }).then(response => {
+            setLoading(false);
+            setUserSession(response.data.token, response.data.email);
+            props.history.push('/dashboard');
+        }).catch(error => {
+        setLoading(false);
+        if (error.response.status === 401) setError(error.response.data.message);
+        else setError("Something went wrong. Please try again.");
+    });
+    }
+
+
+
+    return (
+    <div class="limiter">
+                <div class="container-login100">
+                    <div class="wrap-login100">
+                        <div class="login100-pic js-tilt" data-tilt>
+                            
+                        </div>
+        
+                        <form class="login100-form" onSubmit={handleLogin}>
+                            <span class="login100-form-title"><div class="logo"></div>
+                                Admin Login
+                            </span>                      
+                            <div class="wrap-input100">
+                                <input class="input100" type="text" {...empid} name="empid"  placeholder="Employee ID" required/>
+                            </div>
+        
+                            <div class="wrap-input100 ">
+                                <input class="input100" type="password" {...password} name="password"  placeholder="Password" required/>                               
+                            </div>                                                  
+                            <div class="container-login100-form-btn">
+                            {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}
+                            <button class="login100-form-btn" value={loading ? 'Loading...' : 'Login'}  disabled={loading}>
+                                {loading ? 'Loading...' : 'Login'}
+                            </button>
+                            </div>
+                            
+        
+                            <div class="text-center p-t-12">
+                                <span class="txt1">
+                                    Forgot
+                                </span>
+                                <a class="txt2" href="#">
+                                    Username / Password?
+                                </a>
+                            </div>
+                            <Link to="/register">
+                            <div class="text-center p-t-12">
+                                <a class="txt3">
+                                    Create your Account
+                                    <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            </Link>
+        
+                        
+                        </form>
+                    </div>
+                </div>
+            </div>
+    );
+
 }
 
-export default Login
+const useFormInput = initialValue => {
+    const [value, setValue] = useState(initialValue);
+    
+    const handleChange = e => {
+        setValue(e.target.value);
+    }
+    return {
+        value,
+        onChange: handleChange
+    }
+}
+
+export default Login;

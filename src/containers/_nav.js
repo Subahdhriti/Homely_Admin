@@ -236,11 +236,6 @@ export default [
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Login2',
-        to: '/login2',
-      },
-      {
-        _tag: 'CSidebarNavItem',
         name: 'Register',
         to: '/register',
       },

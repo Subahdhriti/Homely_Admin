@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{Link} from 'react'
 import {
   CBadge,
   CDropdown,
@@ -9,7 +9,21 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
-const TheHeaderDropdown = () => {
+
+import { getUser, removeUserSession } from '../utils/session';
+
+const TheHeaderDropdown = (props) => {
+
+  //const user = getUser();
+
+  const handleLogout = () => {
+    console.log("Logout Clicked")
+    removeUserSession();
+    props.history.push('/login');
+  }
+
+
+
   return (
     <CDropdown
       inNav
@@ -80,10 +94,9 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
-          <CIcon name="cil-lock-locked" className="mfe-2" /> 
-          Lock Account
-        </CDropdownItem>
+          <button name="cil-lock-locked" className="mfe-2" onClick={handleLogout} > 
+          Logout
+          </button>
       </CDropdownMenu>
     </CDropdown>
   )
