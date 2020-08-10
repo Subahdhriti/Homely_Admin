@@ -21,13 +21,14 @@ const TheHeaderDropdown = (props) => {
   const history = useHistory();
 
   const handleLogout = ({ component: Component, ...rest }) => {
-    console.log("Logout Clicked");
+    //console.log("Logout Clicked");
     const token = getToken();
     axios.delete(apiBase+'/admin/logout', { headers: {'x-auth': token} }).then(response => {
       removeUserSession();
       history.push('/login');
     }).catch(error => {
-      alert("Failed to logout. Try Again");
+      removeUserSession();
+      history.push('/login');
     })
     
   }
@@ -104,7 +105,7 @@ const TheHeaderDropdown = (props) => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
-          <button name="cil-lock-locked" className="mfe-2" onClick={handleLogout} > 
+          <button name="cil-lock-locked" className="logout-btn" onClick={handleLogout} > 
           Logout
           </button>
       </CDropdownMenu>

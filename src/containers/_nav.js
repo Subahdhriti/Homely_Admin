@@ -6,6 +6,16 @@ export default [
     icon: 'cil-speedometer',
     badge: {
       color: 'info',
+      text: '',
+    }
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Users',
+    to: '/users',
+    icon: 'cil-people',
+    badge: {
+      color: 'info',
       text: 'NEW',
     }
   },

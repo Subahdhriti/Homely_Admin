@@ -378,6 +378,38 @@ iframe {
 }
 
 
+.logout-btn {
+  font-family: Montserrat-Bold;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 80%;
+  height: 30px;
+  margin-left: 18px;
+  border-radius: 5px;
+  background: #f85e5e;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.logout-btn:hover {
+  background: #333333;
+}
+
+
 
 /*------------------------------------------------------------------
 [ Responsive ]*/
