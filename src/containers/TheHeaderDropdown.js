@@ -1,4 +1,5 @@
-import React,{Link} from 'react'
+import React from 'react'
+import  { useHistory} from 'react-router-dom'
 import {
   CBadge,
   CDropdown,
@@ -9,17 +10,26 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
+import axios from 'axios';
+import { getToken, removeUserSession} from '../utils/session';
+import {apiBase} from '../services/Rest';
 
-import { getUser, removeUserSession } from '../utils/session';
+
 
 const TheHeaderDropdown = (props) => {
 
-  //const user = getUser();
+  const history = useHistory();
 
-  const handleLogout = () => {
-    console.log("Logout Clicked")
-    removeUserSession();
-    props.history.push('/login');
+  const handleLogout = ({ component: Component, ...rest }) => {
+    console.log("Logout Clicked");
+    const token = getToken();
+    axios.delete(apiBase+'/admin/logout', { headers: {'x-auth': token} }).then(response => {
+      removeUserSession();
+      history.push('/login');
+    }).catch(error => {
+      alert("Failed to logout. Try Again");
+    })
+    
   }
 
 
