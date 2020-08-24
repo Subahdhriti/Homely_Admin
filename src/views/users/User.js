@@ -1,13 +1,16 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
-import usersData from './UsersData'
+import userDetails from './UsersData'
+
 
 const User = ({match}) => {
-  const user = usersData.find( user => user.id.toString() === match.params.id)
-  const userDetails = user ? Object.entries(user) : 
-    [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
+
+
+  //const user = userDetails( user => user.id.toString() === match.params.id)
+  //const userDetails = user ? Object.entries(user) : 
+  //  [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
 
   return (
     <CRow>

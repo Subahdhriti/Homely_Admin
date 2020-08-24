@@ -11,7 +11,7 @@ import {
   CPagination
 } from '@coreui/react'
 
-import usersData from './UsersData'
+import getUsers from './UsersData'
 
 const getBadge = status => {
   switch (status) {
@@ -24,6 +24,15 @@ const getBadge = status => {
 }
 
 const Users = () => {
+
+
+  let [usersData=[],setUsers] = useState(0);
+
+  getUsers().then((Response) => {
+      setUsers(usersData = Response.data);
+  })
+
+
   const history = useHistory()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
@@ -39,22 +48,23 @@ const Users = () => {
 
   return (
     <CRow>
-      <CCol xl={6}>
+      <CCol xl={12}>
         <CCard>
           <CCardHeader>
-            Users
-            <small className="text-muted"> example</small>
+            All Users
+            <small className="text-muted"> </small>
           </CCardHeader>
           <CCardBody>
           <CDataTable
             items={usersData}
             fields={[
-              { key: 'name', _classes: 'font-weight-bold' },
-              'registered', 'role', 'status'
+              { key: 'firstName', _classes: 'font-weight-bold' },
+              { key: 'lastName', _classes: 'font-weight-bold' },
+              'username','createdAt', 'userType', 'phoneNo','email','status'
             ]}
             hover
             striped
-            itemsPerPage={5}
+            itemsPerPage={10}
             activePage={page}
             clickableRows
             onRowClick={(item) => history.push(`/users/${item.id}`)}
